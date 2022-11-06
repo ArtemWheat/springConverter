@@ -1,6 +1,7 @@
 package com.example.springConverter.controller;
 
 import com.example.springConverter.ResponseData;
+import com.example.springConverter.entity.Converter;
 import com.example.springConverter.entity.Attachment;
 import com.example.springConverter.entity.FileData;
 import com.example.springConverter.service.AttachmentService;
@@ -31,7 +32,7 @@ public class AttachmentController {
     }
 
 
-    @PostMapping("/upload")
+    @PostMapping("/upload") //TODO надо убрать загрзку в БД
     public ResponseData uploadFile(@RequestParam("file")MultipartFile file) throws Exception {
         Attachment attachment = null;
         String downloadURl = "";
@@ -59,7 +60,7 @@ public class AttachmentController {
                 .body(new ByteArrayResource(attachment.getData()));
     }
 
-    @PostMapping("/storage/upload")
+    @PostMapping("/storage/upload") //TODO сделать 2 вида загрузки
     public ResponseEntity<FileData> uploadFileStorage(@RequestParam("file")MultipartFile file) throws Exception{
 
         FileData fileData = fileDataService.saveAttachmentStorage(file);
@@ -72,4 +73,15 @@ public class AttachmentController {
     public ResponseEntity<Resource> downloadFileStorage(@PathVariable String fileId) throws Exception{
        return null;
     }
+
+    @PostMapping("/storage/combiner")
+    public ResponseEntity<Converter> convert(@RequestParam int[] columns,
+                                             @RequestParam String splitter,
+                                             @RequestParam int id) throws Exception{ //TODO настроить систему id процессов
+        return null;
+    }
+
+    //TODO закинуть проект ильи сюда
+    //TODO прописать логику id
+    //TODO прописать запросы в проекту ильи
 }
