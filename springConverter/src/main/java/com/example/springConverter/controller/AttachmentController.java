@@ -5,7 +5,9 @@ import com.example.springConverter.entity.Converter;
 import com.example.springConverter.entity.Attachment;
 import com.example.springConverter.entity.FileData;
 import com.example.springConverter.service.AttachmentService;
+import com.example.springConverter.service.ConverterService;
 import com.example.springConverter.service.FileDataService;
+import net.bytebuddy.dynamic.loading.InjectionClassLoader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
@@ -13,9 +15,12 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
+
+import java.sql.Array;
 
 @RestController
 public class AttachmentController {
@@ -26,9 +31,15 @@ public class AttachmentController {
     @Autowired
     private FileDataService fileDataService;
 
-    public AttachmentController(AttachmentService attachmentService, FileDataService fileDataService) {
+    @Autowired
+    private ConverterService converterService;
+
+    public AttachmentController(AttachmentService attachmentService,
+                                FileDataService fileDataService,
+                                ConverterService converterService) {
         this.attachmentService = attachmentService;
         this.fileDataService = fileDataService;
+        this.converterService = converterService;
     }
 
 
@@ -60,7 +71,7 @@ public class AttachmentController {
                 .body(new ByteArrayResource(attachment.getData()));
     }
 
-    @PostMapping("/storage/upload") //TODO сделать 2 вида загрузки
+    @PostMapping("/storage/upload")
     public ResponseEntity<FileData> uploadFileStorage(@RequestParam("file")MultipartFile file) throws Exception{
 
         FileData fileData = fileDataService.saveAttachmentStorage(file);
@@ -70,18 +81,59 @@ public class AttachmentController {
     }
 
     @GetMapping("/storage/download/{fileId}")
-    public ResponseEntity<Resource> downloadFileStorage(@PathVariable String fileId) throws Exception{
-       return null;
+    public ResponseEntity<FileData> downloadFileStorage(@PathVariable String fileId) throws Exception{
+        FileData fileData = fileDataService.getAttachmentStorage(fileId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(fileData);
     }
 
-    @PostMapping("/storage/combiner")
-    public ResponseEntity<Converter> convert(@RequestParam int[] columns,
-                                             @RequestParam String splitter,
-                                             @RequestParam int id) throws Exception{ //TODO настроить систему id процессов
-        return null;
+    @PostMapping("storage/combine")
+    public ResponseEntity<String> combine(@RequestParam String fileId1,
+                                            @RequestParam String fileId2,
+                                            @RequestParam String columnsNums,
+                                            @RequestParam String splitter) throws Exception{
+        var columnsNumsArr = columnsNums.split(", ");
+        var columnsNumsArrInt = new int[columnsNumsArr.length];
+        for (var i = 0; i < columnsNumsArr.length; i++){
+            columnsNumsArrInt[i] = Integer.parseInt(columnsNumsArr[i]);
+        }
+
+        String fileResulthPath = converterService.combine(fileId1,
+                fileId2,
+                columnsNumsArrInt,
+                splitter);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(fileResulthPath); //TODO разобраться, почему не меняется ничего в таблицах
     }
 
-    //TODO закинуть проект ильи сюда
-    //TODO прописать логику id
-    //TODO прописать запросы в проекту ильи
+    @PostMapping("storage/divide")
+    public ResponseEntity<String> divide(@RequestParam String fileId1,
+                                         @RequestParam String fileId2,
+                                         @RequestParam String columnNum,
+                                         @RequestParam String splitter) throws Exception{
+
+        String fileResulthPath = converterService.divide(fileId1,
+                fileId2,
+                Integer.parseInt(columnNum),
+                splitter);
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(fileResulthPath);
+    }
+
+    @PostMapping("storage/connect")
+    public ResponseEntity<String> connect(@RequestParam String fileId1,
+                                         @RequestParam String fileId2,
+                                         @RequestParam String srcColumn,
+                                         @RequestParam String dstColumn) throws Exception{
+
+        String fileResulthPath = converterService.connect(fileId1,
+                fileId2,
+                Integer.parseInt(srcColumn),
+                Integer.parseInt(dstColumn));
+
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(fileResulthPath);
+    }
 }

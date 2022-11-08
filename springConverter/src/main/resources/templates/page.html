@@ -1,53 +1,47 @@
 <!DOCTYPE html>
 <html lang="ru">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="Content-Type" content="IE=edge">
+        <meta name="viewport" content="text/html; width=device-width, initial-scale=1.0">
+        <title>Convertor</title>
+        <link rel="stylesheet" href="normalize.css">
+        <link rel="stylesheet" href="style.css">
+    </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Convertor</title>
-    <link rel="stylesheet" href="normalize.css">
-    <link rel="stylesheet" href="style.css">
-</head>
+    <body>
+        <div class="container">
+            <div class="main_menu flex-column">
+                <a href="#" class="header-logo"><img src="./img/Logo.png" alt="Logo"></a>
+                <p class="main_menu-help_text">Загрузите исходную таблицу и шаблон...</p>
 
-<body>
-    <div class="container">
-        <div class="main_menu flex-column">
+                <ul class="list-reset main_menu-list flex-column">
+                    <li><button class="bth-reset main_menu-bth">Объеденить</button></li>
+                    <li><button class="bth-reset main_menu-bth">Разделить</button></li>
+                    <li><button class="bth-reset main_menu-bth">Удалить</button></li>
+                    <li><button class="bth-reset main_menu-bth" style="margin-bottom: 280px;">Отменить</button></li>
+                    <li><button class="bth-reset main_menu-bth" style="margin-bottom: 0">Конвертировать</button></li>
+                </ul>
+            </div>
 
-            <a href="#" class="header-logo"><img src="./img/Logo.png" alt="Logo"></a>
-            <p class="main_menu-help_text">Загрузите исходную таблицу и шаблон...</p>
-
-            <ul class="list-reset main_menu-list flex-column">
-                <li><button class="bth-reset main_menu-bth">Объеденить</button></li>
-                <li><button class="bth-reset main_menu-bth">Разделить</button></li>
-                <li><button class="bth-reset main_menu-bth">Удалить</button></li>
-                <li><button class="bth-reset main_menu-bth" style="margin-bottom: 280px;">Отменить</button></li>
-                <li><button class="bth-reset main_menu-bth" style="margin-bottom: 0">Конвертировать</button></li>
-            </ul>
-        </div>
-
-        <div class="main_field flex-column">
-            <div style="margin-bottom: 70px;">
-                <p class="field_inter-title">Исходная таблица</p>
-                <div class="main_field-input">
-                    <input id="file-input1" type="file" name="file1" multiple>
-                    <label for="file-input">Выберите файл текст для объёма</label>
-                    <span>или перетащите его сюда</span>
+            <div class="main_field flex-column">
+                <div style="margin-bottom: 70px;">
+                    <p class="field_inter-title">Исходная таблица</p>
+                    <div class="main_field-input">
+                        <input id="file-input1" type="file" name="file1" multiple>
+                        <label>Выберите файл текст для объёма</label>
+                        <span>или перетащите его сюда</span>
+                    </div>
+                </div>
+                <div>
+                    <p class="field_inter-title">Шаблон</p>
+                    <div class="main_field-input">
+                        <input id="file-input2" type="file" name="file1" multiple>
+                        <label>Выберите файл текст для объёма</label>
+                        <span>или перетащите его сюда</span>
+                    </div>
                 </div>
             </div>
-            <div>
-                <p class="field_inter-title">Шаблон</p>
-                <div class="main_field-input">
-                    <input id="file-input2" type="file" name="file1" multiple>
-                    <label for="file-input">Выберите файл текст для объёма</label>
-                    <span>или перетащите его сюда</span>
-                </div>
-            </div>
         </div>
-    </div>
-</body>
-
-
-
-
+    </body>
 </html>

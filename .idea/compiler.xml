@@ -11,7 +11,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="springConverter" target="11" />
+      <module name="springConverter" target="16" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
