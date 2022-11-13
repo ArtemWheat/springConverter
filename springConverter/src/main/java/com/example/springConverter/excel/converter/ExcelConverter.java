@@ -1,13 +1,13 @@
 package com.example.springConverter.excel.converter;
 
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import com.example.springConverter.excel.sheetConnector.ColumnsConnector;
 import com.example.springConverter.excel.sheetConnector.SheetConnector;
 import com.example.springConverter.excel.sheetmodifier.SheetModifier;
 import com.example.springConverter.excel.sheetmodifier.columnscommands.ColumnsCombiner;
 import com.example.springConverter.excel.sheetmodifier.columnscommands.ColumnsDivider;
 import com.example.springConverter.excel.sheetmodifier.columnscommands.ColumnsModifier;
-import org.apache.poi.ss.usermodel.*;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 import java.io.Closeable;
 import java.io.FileInputStream;
@@ -64,20 +64,22 @@ public class ExcelConverter implements Closeable {
     private void handleModifier(ColumnsModifier modifier) {
         sheetModifier.newModifier(modifier);
         sheetModifier.applyLastAdded(modifiableSource.getSheetAt(0));
-        updateConnectors(modifier.getColumnNums());
+        updateConnectors(modifier.getColumnNums(), modifier.getNewColumnNums());
     }
 
     public void cancelLast() throws IOException {
-        modifiableSource = copyWorkbook(cutSource);
         var removed = sheetModifier.removeLast();
-        updateConnectors(removed.getNewColumnNums());
+        if (removed != null) {
+            modifiableSource = copyWorkbook(cutSource);
+            sheetModifier.applyAll(modifiableSource.getSheetAt(0));
+            updateConnectors(removed.getNewColumnNums(), removed.getColumnNums());
+        }
     }
 
-    private void updateConnectors(int[] changedColumnsNums) {
-        if (sheetConnector.removeSrcIntersections(changedColumnsNums)) {
-            cutRows(result.getSheetAt(0), 1);
-            sheetConnector.applyAll(modifiableSource.getSheetAt(0), result.getSheetAt(0), 3);
-        }
+    private void updateConnectors(int[] srsColumnsNums, int[] resultColumnNums) {
+        sheetConnector.updateConnectors(srsColumnsNums, resultColumnNums);
+        cutRows(result.getSheetAt(0), 1);
+        sheetConnector.applyAll(modifiableSource.getSheetAt(0), result.getSheetAt(0), 3);
     }
 
     public void connectColumns(int srcColumnNum, int dstColumnNum) {
@@ -108,9 +110,7 @@ public class ExcelConverter implements Closeable {
     }
 
     private CellStyle[] getStyles(Row row) {
-        return StreamSupport.stream(row.spliterator(), false)
-            .map(Cell::getCellStyle)
-            .toArray(CellStyle[]::new);
+        return StreamSupport.stream(row.spliterator(), false).map(Cell::getCellStyle).toArray(CellStyle[]::new);
     }
 
     private void checkCorrectWorkbook(Workbook workbook) {

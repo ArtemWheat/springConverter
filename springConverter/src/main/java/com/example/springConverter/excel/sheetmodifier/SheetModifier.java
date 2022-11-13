@@ -1,7 +1,7 @@
 package com.example.springConverter.excel.sheetmodifier;
 
-import com.example.springConverter.excel.sheetmodifier.columnscommands.ColumnsModifier;
 import org.apache.poi.ss.usermodel.Sheet;
+import com.example.springConverter.excel.sheetmodifier.columnscommands.ColumnsModifier;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +15,9 @@ public class SheetModifier {
     }
 
     public ColumnsModifier removeLast() {
-        return columnsModifiers.remove(columnsModifiers.size() - 1);
+        if (columnsModifiers.size() > 0)
+            return columnsModifiers.remove(columnsModifiers.size() - 1);
+        return null;
     }
 
     public void applyAll(Sheet sheet) {

@@ -1,11 +1,15 @@
 package com.example.springConverter.service;
 
+import com.example.springConverter.excel.converter.ExcelConverter;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.javatuples.Pair;
+
+import java.io.IOException;
+
 public interface ConverterService {
-    String combine(String fileId1, String fileId2, int[] columnsNum, String splitter) throws Exception;
+    boolean executeCommand(String command) throws IOException;
 
-    String divide(String fileId1, String fileId2, int columnNum, String splitter) throws Exception;
+    String[][] outputSample();
 
-    String connect(String fileId1, String fileId2, int srcColumnNum, int dstColumnNum) throws Exception;
-
-
+    String[][] outputSource();
 }

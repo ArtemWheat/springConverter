@@ -1,23 +1,27 @@
 package com.example.springConverter.excel.sheetConnector;
 
-import com.example.springConverter.excel.util.CellHelper;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Sheet;
+import com.example.springConverter.excel.util.ExcelHelper;
 
 import java.util.stream.IntStream;
 
 public class ColumnsConnector {
     private final int srcColumnNum;
     private final int dstColumnNum;
+    private final CellStyle dstStyle;
 
     public int getSrcColumnNum() {
         return srcColumnNum;
     }
+
     public int getDstColumnNum() {
         return dstColumnNum;
     }
 
-    private final CellStyle dstStyle;
+    public CellStyle getDstStyle() {
+        return dstStyle;
+    }
 
     public ColumnsConnector(int srcColumnNum, int dstColumnNum, CellStyle dstStyle) {
         this.srcColumnNum = srcColumnNum;
@@ -27,7 +31,6 @@ public class ColumnsConnector {
 
     public void apply(Sheet src, Sheet dst, int rowsCount) {
         IntStream.rangeClosed(1, Math.min(rowsCount, src.getLastRowNum()))
-            .parallel()
             .forEach(rowNum -> modify(src, dst, rowNum));
     }
 
@@ -40,6 +43,6 @@ public class ColumnsConnector {
         var dstCell = dstRow.createCell(dstColumnNum);
 
         dstCell.setCellStyle(dstStyle);
-        CellHelper.copyCellValue(srcCell, dstCell);
+        ExcelHelper.copyCellValue(srcCell, dstCell);
     }
 }

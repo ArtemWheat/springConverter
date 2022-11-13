@@ -87,53 +87,26 @@ public class AttachmentController {
                 .body(fileData);
     }
 
-    @PostMapping("storage/combine")
-    public ResponseEntity<String> combine(@RequestParam String fileId1,
-                                            @RequestParam String fileId2,
-                                            @RequestParam String columnsNums,
-                                            @RequestParam String splitter) throws Exception{
-        var columnsNumsArr = columnsNums.split(", ");
-        var columnsNumsArrInt = new int[columnsNumsArr.length];
-        for (var i = 0; i < columnsNumsArr.length; i++){
-            columnsNumsArrInt[i] = Integer.parseInt(columnsNumsArr[i]);
+    @PostMapping("storage/command")
+    public ResponseEntity<String> command(@RequestParam String command) throws Exception{
+        if (!converterService.executeCommand(command)){
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body("Выполнена команда " + command);
         }
-
-        String fileResulthPath = converterService.combine(fileId1,
-                fileId2,
-                columnsNumsArrInt,
-                splitter);
-
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(fileResulthPath); //TODO разобраться, почему не меняется ничего в таблицах
+        else
+            return ResponseEntity.status(HttpStatus.OK)
+                    .body("Конвертация проведена успешно");
     }
 
-    @PostMapping("storage/divide")
-    public ResponseEntity<String> divide(@RequestParam String fileId1,
-                                         @RequestParam String fileId2,
-                                         @RequestParam String columnNum,
-                                         @RequestParam String splitter) throws Exception{
-
-        String fileResulthPath = converterService.divide(fileId1,
-                fileId2,
-                Integer.parseInt(columnNum),
-                splitter);
-
+    @GetMapping("storage/source")
+    public ResponseEntity<String[][]> get_mini_source() throws Exception{
         return ResponseEntity.status(HttpStatus.OK)
-                .body(fileResulthPath);
+                .body(converterService.outputSource());
     }
 
-    @PostMapping("storage/connect")
-    public ResponseEntity<String> connect(@RequestParam String fileId1,
-                                         @RequestParam String fileId2,
-                                         @RequestParam String srcColumn,
-                                         @RequestParam String dstColumn) throws Exception{
-
-        String fileResulthPath = converterService.connect(fileId1,
-                fileId2,
-                Integer.parseInt(srcColumn),
-                Integer.parseInt(dstColumn));
-
+    @GetMapping("storage/sample")
+    public ResponseEntity<String[][]> get_mini_sample() throws Exception{
         return ResponseEntity.status(HttpStatus.OK)
-                .body(fileResulthPath);
+                .body(converterService.outputSample());
     }
 }
