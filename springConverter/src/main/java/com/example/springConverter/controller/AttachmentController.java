@@ -56,6 +56,7 @@ public class AttachmentController {
         return new ResponseData(attachment.getFileName(),
                 downloadURl,
                 file.getContentType(),
+                attachment.getFileKey(),
                 file.getSize());
     }
 
@@ -72,8 +73,7 @@ public class AttachmentController {
     }
 
     @PostMapping("/storage/upload")
-    public ResponseEntity<FileData> uploadFileStorage(@RequestParam("file")MultipartFile file) throws Exception{
-
+    public ResponseEntity<FileData> uploadFileStorage(@RequestParam("file")MultipartFile file) throws Exception {
         FileData fileData = fileDataService.saveAttachmentStorage(file);
 
         return ResponseEntity.status(HttpStatus.OK)
@@ -81,14 +81,14 @@ public class AttachmentController {
     }
 
     @GetMapping("/storage/download/{fileId}")
-    public ResponseEntity<FileData> downloadFileStorage(@PathVariable String fileId) throws Exception{
+    public ResponseEntity<FileData> downloadFileStorage(@PathVariable String fileId) throws Exception {
         FileData fileData = fileDataService.getAttachmentStorage(fileId);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(fileData);
     }
 
     @PostMapping("storage/command")
-    public ResponseEntity<String> command(@RequestParam String command) throws Exception{
+    public ResponseEntity<String> command(@RequestParam String command) throws Exception {
         if (!converterService.executeCommand(command)){
             return ResponseEntity.status(HttpStatus.OK)
                     .body("Выполнена команда " + command);

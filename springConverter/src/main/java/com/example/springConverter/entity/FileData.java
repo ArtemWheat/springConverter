@@ -1,24 +1,23 @@
 package com.example.springConverter.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "FILE_DATA")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Builder
+@Builder(toBuilder = true)
+@ToString
 public class FileData {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private String name;
     private String type;
+    private String fileKey;
     private String filePath;
 }

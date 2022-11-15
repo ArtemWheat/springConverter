@@ -12,11 +12,15 @@
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="springConverter" target="16" />
+      <module name="springConverter (1)" target="16" />
+      <module name="springConverter (2)" target="16" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="springConverter" options="-parameters" />
+      <module name="springConverter (1)" options="-parameters" />
+      <module name="springConverter (2)" options="-parameters" />
     </option>
   </component>
 </project>

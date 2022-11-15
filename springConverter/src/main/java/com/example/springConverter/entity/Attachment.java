@@ -17,16 +17,16 @@ public class Attachment {
     @GeneratedValue(generator = "uuid")
     @GenericGenerator(name = "uuid", strategy = "uuid2")
     private String id;
-
     private String fileName;
     private String fileType;
-
+    private String fileKey;
     @Lob
     private byte[] data;
 
-    public Attachment(String fileName, String fileType, byte[] data) {
+    public Attachment(String fileName, String fileType, String fileKey, byte[] data) {
         this.fileName = fileName;
         this.fileType = fileType;
         this.data = data;
+        this.fileKey = fileKey;
     }
 }
