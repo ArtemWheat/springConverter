@@ -32,7 +32,7 @@ public class ConverterServiceImpl implements ConverterService{
         this.fileDataService = fileDataService;
         this.sourcePath = "springConverter/src/main/resources/UploadedFiles/source.xlsx";
         this.samplePath = "springConverter/src/main/resources/UploadedFiles/sample.xlsx";
-        this.resultPath = "springConverter/src/main/resources/UploadedFiles/result.xlsx";
+        this.resultPath = "springConverter/src/main/resources/UploadedFiles/result.xlsx"; //TODO создается копия сурса
         try {
             FileInputStream source = new FileInputStream(sourcePath);
             FileInputStream sample = new FileInputStream(samplePath);

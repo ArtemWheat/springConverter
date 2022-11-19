@@ -35,8 +35,6 @@ public class FileDataServiceImpl implements FileDataService {
             var filePath = FOLDER_PATH + generateKey(fileName);
             var fileData = fileDataRepository.save(FileData.builder()
                 .name(file.getOriginalFilename())
-                .type(file.getContentType())
-                    .fileKey(generateKey(fileName))
                 .filePath(filePath).build());
             file.transferTo(new File(filePath));
             return fileData;

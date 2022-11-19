@@ -1,26 +1,17 @@
 package com.example.springConverter.controller;
 
-import com.example.springConverter.ResponseData;
-import com.example.springConverter.entity.Converter;
 import com.example.springConverter.entity.FileData;
 import com.example.springConverter.service.ConverterService;
 import com.example.springConverter.service.FileDataService;
-import net.bytebuddy.dynamic.loading.InjectionClassLoader;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ByteArrayResource;
-import org.springframework.core.io.Resource;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import java.sql.Array;
 
-@RestController
+@Controller
 public class AttachmentController {
 
     @Autowired
@@ -71,5 +62,10 @@ public class AttachmentController {
     public ResponseEntity<String[][]> get_mini_sample() throws Exception{
         return ResponseEntity.status(HttpStatus.OK)
                 .body(converterService.outputSample());
+    }
+
+    @GetMapping("/")
+    public String mainPage() throws Exception{
+        return "page";
     }
 }

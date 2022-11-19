@@ -1,9 +1,8 @@
 package com.example.springConverter.entity;
 
 import lombok.*;
-
 import javax.persistence.*;
-import java.time.LocalDate;
+
 
 @Entity
 @Table(name = "FILE_DATA")
@@ -17,7 +16,5 @@ public class FileData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String id;
     private String name;
-    private String type;
-    private String fileKey;
     private String filePath;
 }
