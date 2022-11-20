@@ -19,8 +19,7 @@ import static com.example.springConverter.util.KeyGeneratorUtil.generateKey;
 @Service
 @RequiredArgsConstructor
 public class FileDataServiceImpl implements FileDataService {
-    private static final String FOLDER_PATH = "C:\\Users\\lenovo\\Desktop\\springConverter\\springConverter\\" +
-            "src\\main\\resources\\UploadedFiles\\";
+    private static final String FOLDER_PATH = "C:\\Users\\lenovo\\OneDrive - УрФУ\\Рабочий стол\\springConverter\\springConverter\\src\\main\\resources\\UploadedFiles\\";
     @Autowired
     private FileDataStorageRepository fileDataRepository;
 
@@ -32,7 +31,7 @@ public class FileDataServiceImpl implements FileDataService {
     public FileData saveAttachmentStorage(MultipartFile file) throws Exception {
         try {
             var fileName = StringUtils.cleanPath(file.getOriginalFilename());
-            var filePath = FOLDER_PATH + generateKey(fileName);
+            var filePath = FOLDER_PATH + generateKey(fileName) + ".xlsx"; //TODO сделать для 2-го типа еще
             var fileData = fileDataRepository.save(FileData.builder()
                 .name(file.getOriginalFilename())
                 .filePath(filePath).build());

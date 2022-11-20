@@ -26,20 +26,22 @@
 
             <div class="main_field flex-column">
                 <div style="margin-bottom: 70px;">
-                    <p class="field_inter-title">Исходная таблица</p>
-                    <div class="main_field-input">
-                        <input id="file-input1" type="file" name="file1" multiple>
-                        <label>Выберите файл текст для объёма</label>
-                        <span>или перетащите его сюда</span>
-                    </div>
+                    <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
+                        <p class="field_inter-title">Исходная таблица</p>
+                        <div class="form-group">
+                            <input type="file" name="file" class="form-control-file">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Загрузить</button>
+                    </form>
                 </div>
-                <div>
-                    <p class="field_inter-title">Шаблон</p>
-                    <div class="main_field-input">
-                        <input id="file-input2" type="file" name="file1" multiple>
-                        <label>Выберите файл текст для объёма</label>
-                        <span>или перетащите его сюда</span>
-                    </div>
+                <div style="margin-bottom: 70px;">
+                    <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
+                        <p class="field_inter-title">Шаблон</p>
+                        <div class="form-group">
+                            <input type="file" name="file" class="form-control-file">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Загрузить</button>
+                    </form>
                 </div>
             </div>
         </div>
