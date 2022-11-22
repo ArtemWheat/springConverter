@@ -29,18 +29,31 @@
                 <div class="samplee">
                     <p>Ниже меняем контент</p>
                     <div id="employeeIdSelect">Вот этот</div>
-                    <button id="change" onclick="employeeSelect()">Поменять</button>
+
                 </div>
 
                 <div style="margin-bottom: 70px;">
-                    <form method="post" th:action="@{/upload_source}" enctype="multipart/form-data">
+
+                    <div class="main_field-input">
+                        <div>
+                            <table id="table">
+                                <tbody id="tbody">
+
+                                <!--ряд с ячейками тела таблицы-->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <!-- <form method="post" th:action="@{/upload_source}" enctype="multipart/form-data">
                         <p class="field_inter-title">Исходная таблица</p>
                         <div class="form-group">
                             <input type="file" name="file" class="form-control-file">
                         </div>
                         <button type="submit" class="btn btn-primary">Загрузить</button>
                     </form>
+                    -->
                 </div>
+                <button id="change" onclick="employeeSelect()">Добавить таблицу</button>
                 <div style="margin-bottom: 70px;">
                     <form method="post" th:action="@{/upload_sample}" enctype="multipart/form-data">
                         <p class="field_inter-title">Шаблон</p>
