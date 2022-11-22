@@ -25,6 +25,13 @@
             </div>
 
             <div class="main_field flex-column">
+
+                <div class="samplee">
+                    <p>Ниже меняем контент</p>
+                    <div id="employeeIdSelect">Вот этот</div>
+                    <button id="change" onclick="employeeSelect()">Поменять</button>
+                </div>
+
                 <div style="margin-bottom: 70px;">
                     <form method="post" th:action="@{/upload}" enctype="multipart/form-data">
                         <p class="field_inter-title">Исходная таблица</p>
@@ -45,5 +52,7 @@
                 </div>
             </div>
         </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+        <script src="./script.js"></script>
     </body>
 </html>
