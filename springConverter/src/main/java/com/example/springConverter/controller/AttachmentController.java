@@ -49,7 +49,7 @@ public class AttachmentController {
                 .body(fileData);
     }
 
-    @PostMapping("/cmd")
+    @PostMapping("/divide")
     public ResponseEntity<String> command(@RequestParam String cmd) throws Exception {
         if (!converterService.executeCommand(cmd)){
             return ResponseEntity.status(HttpStatus.OK)
@@ -77,3 +77,6 @@ public class AttachmentController {
         return "page";
     }
 }
+
+//TODO выгрузку
+//TODO
