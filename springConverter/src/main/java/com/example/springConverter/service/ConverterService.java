@@ -12,4 +12,7 @@ public interface ConverterService {
     String[][] outputSample();
 
     String[][] outputSource();
+
+    void setSourcePath(String path);
+    void setSamplePath(String path);
 }

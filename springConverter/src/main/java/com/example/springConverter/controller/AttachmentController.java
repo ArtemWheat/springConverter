@@ -26,10 +26,18 @@ public class AttachmentController {
         this.converterService = converterService;
     }
 
-    @PostMapping("/upload")
-    public ResponseEntity<FileData> uploadFileStorage(@RequestParam("file")MultipartFile file) throws Exception {
+    @PostMapping("/upload_source")
+    public ResponseEntity<FileData> uploadFileSource(@RequestParam("file")MultipartFile file) throws Exception {
         FileData fileData = fileDataService.saveAttachmentStorage(file);
+        converterService.setSourcePath(fileData.getFilePath());
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(fileData);
+    }
 
+    @PostMapping("/upload_sample")
+    public ResponseEntity<FileData> uploadFileSample(@RequestParam("file")MultipartFile file) throws Exception {
+        FileData fileData = fileDataService.saveAttachmentStorage(file);
+        converterService.setSamplePath(fileData.getFilePath());
         return ResponseEntity.status(HttpStatus.OK)
                 .body(fileData);
     }

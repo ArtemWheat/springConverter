@@ -20,9 +20,8 @@ import java.util.Scanner;
 
 @Service
 public class ConverterServiceImpl implements ConverterService{
-    private final String sourcePath;
-    private final String samplePath;
-    private final String resultPath;
+    private String sourcePath;
+    private String samplePath;
     @Autowired
     private FileDataService fileDataService;
     private final ExcelConverter converter;
@@ -32,7 +31,6 @@ public class ConverterServiceImpl implements ConverterService{
         this.fileDataService = fileDataService;
         this.sourcePath = "springConverter/src/main/resources/UploadedFiles/source.xlsx";
         this.samplePath = "springConverter/src/main/resources/UploadedFiles/sample.xlsx";
-        this.resultPath = "springConverter/src/main/resources/UploadedFiles/result.xlsx"; //TODO создается копия сурса
         try {
             FileInputStream source = new FileInputStream(sourcePath);
             FileInputStream sample = new FileInputStream(samplePath);
@@ -72,7 +70,7 @@ public class ConverterServiceImpl implements ConverterService{
             }
             case "convert" -> {
                 var result = converter.getFinalResult();
-                try (var outputStream = new FileOutputStream(resultPath)) {
+                try (var outputStream = new FileOutputStream(samplePath)) {
                     result.write(outputStream);
                 } catch (IOException e){
                     throw new RuntimeException(e);
@@ -90,6 +88,16 @@ public class ConverterServiceImpl implements ConverterService{
     public String[][] outputSource() {
         var source = converter.getSourceExample();
         return ExcelHelper.toStringMatrix(source.getSheetAt(0));
+    }
+
+    @Override
+    public void setSourcePath(String path) {
+        sourcePath = path;
+    }
+
+    @Override
+    public void setSamplePath(String path) {
+        samplePath = path;
     }
 
     @Override
