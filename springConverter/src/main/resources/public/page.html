@@ -1,71 +1,99 @@
 <!DOCTYPE html>
 <html lang="ru" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="Content-Type" content="IE=edge">
-        <meta name="viewport" content="text/html; width=device-width, initial-scale=1.0">
-        <title>Convertor</title>
-        <link rel="stylesheet" th:href="@{css/normalize.css}">
-        <link rel="stylesheet" th:href="@{css/style.css}">
-    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="IE=edge">
+    <meta name="viewport" content="text/html; width=device-width, initial-scale=1.0">
+    <title>Convertor</title>
+    <link rel="stylesheet" th:href="@{css/normalize.css}">
+    <link rel="stylesheet" th:href="@{css/style.css}">
+</head>
 
-    <body>
-        <div class="container">
-            <div class="main_menu flex-column">
-                <a href="#" class="header-logo"><img src="./img/Logo.png" alt="Logo"></a>
-                <p class="main_menu-help_text">Загрузите исходную таблицу и шаблон...</p>
+<body>
 
-                <ul class="list-reset main_menu-list flex-column">
-                    <li><button class="bth-reset main_menu-bth">Объеденить</button></li>
-                    <li><button class="bth-reset main_menu-bth">Разделить</button></li>
-                    <li><button class="bth-reset main_menu-bth">Удалить</button></li>
-                    <li><button class="bth-reset main_menu-bth" style="margin-bottom: 280px;">Отменить</button></li>
-                    <li><button class="bth-reset main_menu-bth" style="margin-bottom: 0">Конвертировать</button></li>
-                </ul>
-            </div>
+<div class="container">
+    <div class="main_menu flex-column">
 
-            <div class="main_field flex-column">
+        <a href="#" class="header-logo"><img src="./img/Logo.png" alt="Logo"></a>
+        <p id="helper" class="main_menu-help_text">Загрузите исходную таблицу и шаблон...</p>
 
-                <div class="samplee">
-                    <p>Ниже меняем контент</p>
-                    <div id="employeeIdSelect">Вот этот</div>
-
+        <ul class="list-reset main_menu-list flex-column">
+            <li class="li-bth">
+                <div class="flex">
+                    <button name="main-bth-action" id="combine" class="bth-reset main_menu-bth" disabled
+                            onclick="main_bth(this.id)">Объеденить</button>
                 </div>
-
-                <div style="margin-bottom: 70px;">
-
-                    <div class="main_field-input">
-                        <div>
-                            <table id="table">
-                                <tbody id="tbody">
-
-                                <!--ряд с ячейками тела таблицы-->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <!-- <form method="post" th:action="@{/upload_source}" enctype="multipart/form-data">
-                        <p class="field_inter-title">Исходная таблица</p>
-                        <div class="form-group">
-                            <input type="file" name="file" class="form-control-file">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Загрузить</button>
-                    </form>
-                    -->
+            </li>
+            <li class="li-bth">
+                <div class="flex">
+                    <button name="main-bth-action" id="divide" class="bth-reset main_menu-bth" disabled
+                            onclick="main_bth(this.id)">Разделить</button>
                 </div>
-                <button id="change" onclick="employeeSelect()">Добавить таблицу</button>
-                <div style="margin-bottom: 70px;">
-                    <form method="post" th:action="@{/upload_sample}" enctype="multipart/form-data">
-                        <p class="field_inter-title">Шаблон</p>
-                        <div class="form-group">
-                            <input type="file" name="file" class="form-control-file">
-                        </div>
-                        <button type="submit" class="btn btn-primary">Загрузить</button>
-                    </form>
+            </li>
+            <li class="li-bth">
+                <div class="flex">
+                    <button name="main-bth-action" id="delete" class="bth-reset main_menu-bth" disabled
+                            onclick="main_bth(this.id)">Удалить</button>
+                </div>
+            </li>
+            <li>
+                <button class="bth-reset main_menu-bth" style="margin-bottom: 280px;" disabled>Отменить</button>
+            </li>
+            <li>
+                <button class="bth-reset main_menu-bth" style="margin-bottom: 0" disabled>Конвертировать</button>
+            </li>
+        </ul>
+    </div>
+
+    <div class="main_field flex-column">
+
+        <div class="samplee" style="display: none;">
+            <p>Ниже меняем контент</p>
+            <div id="employeeIdSelect">Вот этот</div>
+            <button id="change" onclick="employeeSelect()">Поменять</button>
+        </div>
+
+
+        <div style="margin-bottom: 70px;">
+            <p class="field_inter-title">Исходная таблица</p>
+
+            <div class="main_field-input">
+                <div>
+                    <table id="table1">
+                        <tbody id="tbody1">
+
+                        <!--ряд с ячейками тела таблицы-->
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-        <script src="./script.js"></script>
-    </body>
+        <button id="add_table_1" onclick="employeeSelect2(this.id)">Добавить таблицу</button>
+
+
+
+        <div>
+            <p class="field_inter-title">Шаблон</p>
+            <div class="main_field-input">
+                <div>
+                    <table id="table2">
+                        <tbody id="tbody2">
+
+                        <!--ряд с ячейками тела таблицы-->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <button id="add_table_2" onclick="employeeSelect2(this.id)">Добавить таблицу</button>
+    </div>
+</div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<script src="./script.js"></script>
+</body>
+
+
+
+
 </html>
