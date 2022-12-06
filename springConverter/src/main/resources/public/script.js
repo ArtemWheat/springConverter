@@ -307,6 +307,8 @@ function createCompile_bth() {
 
         var cancel_bth = document.getElementById('cancel'); //активируем кнопку отмены
         cancel_bth.disabled = false;
+
+        select_char = false;
 	}
 
 	return compile_bth;
@@ -367,6 +369,7 @@ function creat_back_bth(id) {
 
 		arr_selected = [];
 		action_selected = false;
+		select_char = false;
 		output = '';
 		var elements = document.querySelectorAll('.select_column');
 

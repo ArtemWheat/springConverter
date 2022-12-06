@@ -24,7 +24,7 @@ public class ConverterServiceImpl implements ConverterService{
     private String samplePath;
     @Autowired
     private FileDataService fileDataService;
-    private final ExcelConverter converter;
+    private ExcelConverter converter;
 
 
     public ConverterServiceImpl(FileDataStorageRepository fileDataRepository) throws IOException {
@@ -93,11 +93,29 @@ public class ConverterServiceImpl implements ConverterService{
     @Override
     public void setSourcePath(String path) {
         sourcePath = path;
+        try {
+            FileInputStream source = new FileInputStream(sourcePath);
+            FileInputStream sample = new FileInputStream(samplePath);
+            XSSFWorkbook sourceWB = new XSSFWorkbook(source);
+            XSSFWorkbook sampleWB = new XSSFWorkbook(sample);
+            converter = new ExcelConverter(sourceWB, sampleWB);
+        } catch (IOException e){
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
     public void setSamplePath(String path) {
         samplePath = path;
+        try {
+            FileInputStream source = new FileInputStream(sourcePath);
+            FileInputStream sample = new FileInputStream(samplePath);
+            XSSFWorkbook sourceWB = new XSSFWorkbook(source);
+            XSSFWorkbook sampleWB = new XSSFWorkbook(sample);
+            converter = new ExcelConverter(sourceWB, sampleWB);
+        } catch (IOException e){
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
