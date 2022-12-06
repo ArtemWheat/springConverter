@@ -37,7 +37,8 @@
                 </div>
             </li>
             <li>
-                <button class="bth-reset main_menu-bth" style="margin-bottom: 280px;" disabled>Отменить</button>
+                <button id="cancel" class="bth-reset main_menu-bth"
+                        onclick="cancelOnClick()" style="margin-bottom: 280px;" disabled>Отменить</button>
             </li>
             <li>
                 <button class="bth-reset main_menu-bth" style="margin-bottom: 0" disabled>Конвертировать</button>
@@ -59,6 +60,10 @@
 
             <div class="main_field-input">
                 <div>
+                    <form  method="post" th:action="@{/upload_source}" enctype="multipart/form-data">
+                        <input type="file" name="file"  />
+                        <input type="submit" value="Отправить">
+                    </form>
                     <table id="table1">
                         <tbody id="tbody1">
 
@@ -76,6 +81,7 @@
             <p class="field_inter-title">Шаблон</p>
             <div class="main_field-input">
                 <div>
+
                     <table id="table2">
                         <tbody id="tbody2">
 

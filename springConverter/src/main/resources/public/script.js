@@ -6,6 +6,32 @@ function employeeSelect2(id) {
 	//get the selected id
 	//var employeeId = $('#employeeIdSelect').val(); // Получаю значение дива, но не использую
 
+  /*  id_form = id.slice(-1);
+    var form = document.getElementById('form' + id_form);
+    form.classList.add("dnone");
+
+    id_input = id.slice(-1);
+    const selectedFile = document.getElementById('input' + id_input).files[0];
+    var formNm = $('#form1')[0];
+    var formData = new FormData();
+    formData.append('file', selectedFile);
+*/
+    var outdata  = new FormData(jQuery('form')[0]);
+
+    	$.ajax({
+        			type: "POST",
+        			url: '/upload_source',
+        			cache: false,
+        			contentType: false,
+        			processData: false,
+        			data: outdata,
+        			dataType : 'json',
+        			success: function(msg){
+        				console.log('Fffff')
+        			}
+        		});
+
+
 	//get the url for the ajax call
 	var url = "/source";
 
@@ -69,7 +95,7 @@ var select_char = false;
 var arr_select_char = [];
 var char;
 var input_bool = false;
-
+var arr_actions = [];
 
 function bthMethod(id) {
 
@@ -222,6 +248,9 @@ function createCompile_bth() {
 
 		console.log(output);
 
+
+
+
 		document.getElementById('cont_for_bth').remove();
 		document.querySelector('.width_meta').classList.remove('width_meta');
 		document.getElementById('back_bth').remove();
@@ -267,11 +296,17 @@ function createCompile_bth() {
         	    document.getElementById("tbody1").replaceChildren();
 
         	    employeeSelect2('add_table_1');
-                console.log("Fuck");
             }
         });
 
+        arr_actions.push(output);
+
         output = '';
+
+
+
+        var cancel_bth = document.getElementById('cancel'); //активируем кнопку отмены
+        cancel_bth.disabled = false;
 	}
 
 	return compile_bth;
@@ -420,6 +455,17 @@ function addOnClick(name) {
 					regulator(output);
 				}
 			}
+
+			else if  ((arr_selected.includes(e.target.id))) {
+                            e.target.classList.remove('select_column');
+                            var index = arr_selected.indexOf(e.target.id);
+                            if (index > -1) { // only splice array when item is found
+                                arr_selected.splice(index, 1); // 2nd parameter means remove one item only
+                            }
+
+                       regulator(output);
+
+            			}
 		}, false);
 	}
 }
@@ -460,6 +506,18 @@ function regulator(action) {
 			action_selected = false;
 		}
 
+		else if (arr_selected.length < 1) {
+
+             			helper.innerHTML = 'Выберите один столбец исходной таблицы';
+
+             			var addit_bth = document.querySelectorAll('.addit_bth');
+             			for (var i = 0; i < addit_bth.length; i++) {
+             				addit_bth[i].disabled = true;
+             			}
+
+             			action_selected = true;
+             		}
+
 	}
 	if (action == 'delete') {
 
@@ -467,4 +525,36 @@ function regulator(action) {
 		helper.innerHTML = 'Пока не работает';
 	}
 }
+
+
+function cancelOnClick() {
+    if (arr_actions.length > 0) {
+
+        $.ajax({
+                    type: "POST",
+                    url: "/cmd",
+                    method: 'POST',
+                    dataType: 'text',
+                    data: {cmd: 'cancel'},
+                    success: function(data){
+                	    alert(data); // прописать метод перезаполнения таблиц
+
+                	    document.getElementById("tbody1").replaceChildren();
+
+                	    employeeSelect2('add_table_1');
+                    }
+                });
+
+        arr_actions.pop();
+
+
+    }
+
+    if (arr_actions.length == 0) {
+         var cancel_bth = document.getElementById('cancel'); //диактивируем кнопку отмены
+        cancel_bth.disabled = true;
+    }
+}
+
+
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
