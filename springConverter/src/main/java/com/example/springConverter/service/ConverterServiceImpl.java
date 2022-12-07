@@ -85,12 +85,6 @@ public class ConverterServiceImpl implements ConverterService{
     }
 
     @Override
-    public String[][] outputSource() {
-        var source = converter.getSourceExample();
-        return ExcelHelper.toStringMatrix(source.getSheetAt(0));
-    }
-
-    @Override
     public void setSourcePath(String path) {
         sourcePath = path;
         try {
@@ -116,6 +110,12 @@ public class ConverterServiceImpl implements ConverterService{
         } catch (IOException e){
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public String[][] outputSource() {
+        var source = converter.getSourceExample();
+        return ExcelHelper.toStringMatrix(source.getSheetAt(0));
     }
 
     @Override

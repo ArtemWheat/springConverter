@@ -41,6 +41,7 @@
                         onclick="cancelOnClick()" style="margin-bottom: 280px;" disabled>Отменить</button>
             </li>
             <li>
+
                 <button class="bth-reset main_menu-bth" style="margin-bottom: 0" disabled>Конвертировать</button>
             </li>
         </ul>
@@ -48,22 +49,18 @@
 
     <div class="main_field flex-column">
 
-        <div class="samplee" style="display: none;">
-            <p>Ниже меняем контент</p>
-            <div id="employeeIdSelect">Вот этот</div>
-            <button id="change" onclick="employeeSelect()">Поменять</button>
-        </div>
-
-
         <div style="margin-bottom: 70px;">
             <p class="field_inter-title">Исходная таблица</p>
 
-            <div class="main_field-input">
+            <div id="main_field1" class="main_field-input">
                 <div>
-                    <form  method="post" th:action="@{/upload_source}" enctype="multipart/form-data">
-                        <input type="file" name="file"  />
-                        <input type="submit" value="Отправить">
-                    </form>
+                    <div id="upload1">
+                        <form  id="form1" method="post" th:action="@{/upload_source}" enctype="multipart/form-data">
+                            <input type="file" name="file"  />
+                        </form>
+                        <button id="add_table_1" onclick="uploader(this.id)">Загрузить</button>
+                    </div>
+
                     <table id="table1">
                         <tbody id="tbody1">
 
@@ -73,14 +70,18 @@
                 </div>
             </div>
         </div>
-        <button id="add_table_1" onclick="employeeSelect2(this.id)">Добавить таблицу</button>
-
 
 
         <div>
             <p class="field_inter-title">Шаблон</p>
-            <div class="main_field-input">
+            <div id="main_field2" class="main_field-input">
                 <div>
+                    <div id="upload2">
+                        <form  id="form2" method="post" th:action="@{/upload_source}" enctype="multipart/form-data">
+                            <input type="file" name="file"  />
+                        </form>
+                        <button id="add_table_2" onclick="uploader(this.id)">Загрузить</button>
+                    </div>
 
                     <table id="table2">
                         <tbody id="tbody2">
@@ -91,8 +92,6 @@
                 </div>
             </div>
         </div>
-
-        <button id="add_table_2" onclick="employeeSelect2(this.id)">Добавить таблицу</button>
     </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>

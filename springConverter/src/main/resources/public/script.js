@@ -1,5 +1,52 @@
-
+var upload_arr = []
 var crutchID;
+
+
+
+function uploader(id) {
+    crutchID = id;
+
+    if (upload_arr.length < 2) {
+       var url;
+       var upload_url;
+       var id_form = id.slice(-1);
+
+       if (id_form == 1) {
+          url = "/source";
+          upload_url = '/upload_source';
+       }
+
+       else {
+           url = "/sample";
+           upload_url = '/upload_sample';
+                                   }
+
+        var outdata  = new FormData(jQuery('#form' + id_form)[0]);
+
+        $.ajax({
+                    type: "POST",
+                    url: upload_url,
+                    cache: false,
+                    contentType: false,
+                    processData: false,
+                    data: outdata,
+                    dataType : 'json',
+                    success: function(msg){
+                        alert("Теперь обращаюсь к source");
+                       	$.get(url, populateEmployeeInfo2);
+                       	upload_arr.push(id_form);
+
+                        var form = document.getElementById('upload' + id_form);
+                        form.classList.add("dnone");
+                    }
+                });
+
+
+
+        }
+
+}
+
 
 function employeeSelect2(id) {
     crutchID = id;
@@ -16,26 +63,18 @@ function employeeSelect2(id) {
     var formData = new FormData();
     formData.append('file', selectedFile);
 */
-    var outdata  = new FormData(jQuery('form')[0]);
+    var url;
+    var upload_url;
+    var id_form = id.slice(-1);
 
-    	$.ajax({
-        			type: "POST",
-        			url: '/upload_source',
-        			cache: false,
-        			contentType: false,
-        			processData: false,
-        			data: outdata,
-        			dataType : 'json',
-        			success: function(msg){
-        				console.log('Fffff')
-        			}
-        		});
+    if (id_form == 1) {
+       url = "/source";
+    }
 
+    else {
+        url = "/sample";
+    }
 
-	//get the url for the ajax call
-	var url = "/source";
-
-	//do the ajax call
 	$.get(url, populateEmployeeInfo2);
 }
 
@@ -125,6 +164,7 @@ function main_bth(id) {
 	output = String(id);
 
 	disabled_main_bth(true);
+	document.getElementById('cancel').disabled = true;
 
 	var this_bth = document.getElementById(id);
 
@@ -417,11 +457,12 @@ function fillTable(table, arr, id) {
 		table.appendChild(tr);
 	}
 
-	div_input = document.querySelectorAll('.main_field-input')
-	for (var i = 0; i < div_input.length; i++) {
-		div_input[i].classList.add('no_padding')
+
+	div_input = document.getElementById('main_field' + id);
+
+		div_input.classList.add('no_padding');
 	}
-}
+
 
 // // // //
 
