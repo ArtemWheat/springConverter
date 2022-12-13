@@ -38,11 +38,17 @@
             </li>
             <li>
                 <button id="cancel" class="bth-reset main_menu-bth"
-                        onclick="cancelOnClick()" style="margin-bottom: 280px;" disabled>Отменить</button>
+                        onclick="cancelOnClick()" disabled>Отменить</button>
+            </li>
+            <li class="li-bth">
+                <div class="flex">
+                    <button name="main-bth-action" id="connect" class="bth-reset main_menu-bth" disabled
+                            onclick="connectOnClick(this.id)">Сопоставить столбцы</button>
+                </div>
             </li>
             <li>
-
-                <button class="bth-reset main_menu-bth" style="margin-bottom: 0" disabled>Конвертировать</button>
+                <button class="bth-reset main_menu-bth"
+                        onclick="convertOnClick(this.id)" style="margin-bottom: 0">Конвертировать</button>
             </li>
         </ul>
     </div>
