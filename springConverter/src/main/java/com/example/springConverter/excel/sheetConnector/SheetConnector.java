@@ -1,23 +1,28 @@
 package com.example.springConverter.excel.sheetConnector;
 
-import org.apache.poi.ss.usermodel.Sheet;
+import com.example.springConverter.excel.sheetmodifier.SheetModifier;
+import org.apache.poi.ss.usermodel.*;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
+import java.io.Closeable;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 public class SheetConnector {
     private List<ColumnsConnector> columnsConnectors = new ArrayList<>();
 
-    public SheetConnector() {
-
-    }
-
     public void newConnector(ColumnsConnector connector) {
         var intersection = columnsConnectors.stream()
-            .filter(conn -> connector.getDstColumnNum() == conn.getDstColumnNum())
-            .findFirst();
+                .filter(conn -> connector.getDstColumnNum() == conn.getDstColumnNum())
+                .findFirst();
         intersection.ifPresent(columnsConnectors::remove);
         columnsConnectors.add(connector);
     }
@@ -47,17 +52,28 @@ public class SheetConnector {
                 updatedConnectors.add(columnsConnector);
             else if (difference > 0) {
                 updatedConnectors.add(new ColumnsConnector(
-                    srcColumnNum + resultNumsSet.size() - srcNumsSet.size(),
-                    columnsConnector.getDstColumnNum(),
-                    columnsConnector.getDstStyle()
+                        srcColumnNum + resultNumsSet.size() - srcNumsSet.size(),
+                        columnsConnector.getDstColumnNum(),
+                        columnsConnector.getDstStyle()
                 ));
             } else
                 updatedConnectors.add(new ColumnsConnector(
-                    srcColumnNum + difference,
-                    columnsConnector.getDstColumnNum(),
-                    columnsConnector.getDstStyle()
+                        srcColumnNum + difference,
+                        columnsConnector.getDstColumnNum(),
+                        columnsConnector.getDstStyle()
                 ));
         }
         this.columnsConnectors = updatedConnectors;
     }
+
+    public boolean removeFor(int resultColumnNum) {
+        var toRemove = columnsConnectors.stream()
+                .filter(connector -> connector.getDstColumnNum() == resultColumnNum)
+                .findFirst();
+        if (toRemove.isEmpty())
+            return false;
+        columnsConnectors.remove(toRemove.get());
+        return true;
+    }
 }
+
