@@ -19,7 +19,7 @@ import static com.example.springConverter.util.KeyGeneratorUtil.generateKey;
 @Service
 @RequiredArgsConstructor
 public class FileDataServiceImpl implements FileDataService {
-    private static final String FOLDER_PATH = "C:\\Users\\lenovo\\OneDrive - УрФУ\\Рабочий стол\\springConverter\\springConverter\\src\\main\\resources\\UploadedFiles\\";
+    private static final String FOLDER_PATH = "C:\\Users\\Michael\\Desktop\\";
     @Autowired
     private FileDataStorageRepository fileDataRepository;
 
