@@ -15,4 +15,5 @@ public interface ConverterService {
 
     void setSourcePath(String path);
     void setSamplePath(String path);
+    String getSamplePath();
 }

@@ -113,6 +113,11 @@ public class ConverterServiceImpl implements ConverterService{
     }
 
     @Override
+    public String getSamplePath() {
+        return samplePath;
+    }
+
+    @Override
     public String[][] outputSource() {
         var source = converter.getSourceExample();
         return ExcelHelper.toStringMatrix(source.getSheetAt(0));

@@ -5,11 +5,15 @@ import com.example.springConverter.service.ConverterService;
 import com.example.springConverter.service.FileDataService;
 import org.apache.poi.EmptyFileException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.io.FileInputStream;
 
 
 @Controller
@@ -49,10 +53,13 @@ public class AttachmentController {
         }
     }
 
-    @GetMapping("/download/{fileId}")
-    public ResponseEntity<FileData> downloadFileStorage(@PathVariable String fileId) throws Exception {
-        FileData fileData = fileDataService.getAttachmentStorage(fileId);
-        return ResponseEntity.status(HttpStatus.OK).body(fileData);
+    @GetMapping("/download")
+    public ResponseEntity<InputStreamResource> downloadFileStorage() throws Exception {
+        converterService.executeCommand("convert");
+        InputStreamResource file = fileDataService.getFileFromFileSystem(converterService.getSamplePath());
+        return ResponseEntity.status(HttpStatus.OK)
+                .contentType(MediaType.parseMediaType("application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"))
+                .body(file);
     }
 
     @PostMapping("/cmd")
@@ -79,4 +86,3 @@ public class AttachmentController {
         return "page";
     }
 }
-//TODO выгрузку
