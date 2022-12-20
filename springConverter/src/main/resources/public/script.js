@@ -38,6 +38,11 @@ function uploader(id) {
 
                         var form = document.getElementById('upload' + id_form);
                         form.classList.add("dnone");
+                    },
+
+
+                    error: function(xhr, status, error) {
+                       alert(xhr.responseText);
                     }
                 });
 

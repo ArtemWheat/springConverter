@@ -10,10 +10,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.FileInputStream;
+import java.nio.file.FileSystemException;
+import java.util.Objects;
 
 
 @Controller
@@ -30,19 +33,34 @@ public class AttachmentController {
     }
 
     @PostMapping("/upload_source")
-    public ResponseEntity<FileData> uploadFileSource(@RequestParam("file")MultipartFile file) throws Exception {
+    public ResponseEntity<?> uploadFileSource(@RequestParam("file")MultipartFile file) throws Exception {
+        try {
+            var file_name = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+            var fileNameExpans = file_name.substring(file_name.length() - 4, file_name.length());
+            if (!fileNameExpans.equals("xlsx")){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid file format");
+            }} catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid file format");
+        }
         var fileData = fileDataService.saveAttachmentStorage(file);
         try {
             converterService.setSourcePath(fileData.getFilePath());
             return ResponseEntity.status(HttpStatus.OK).body(fileData);
         } catch (EmptyFileException exception) {
-            System.out.println("File to boot is not selected");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(fileData);
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("File to boot is not selected");
         }
     }
 
     @PostMapping("/upload_sample")
-    public ResponseEntity<FileData> uploadFileSample(@RequestParam("file")MultipartFile file) throws Exception {
+    public ResponseEntity<?> uploadFileSample(@RequestParam("file")MultipartFile file) throws Exception {
+        try {
+            var file_name = StringUtils.cleanPath(Objects.requireNonNull(file.getOriginalFilename()));
+            var fileNameExpans = file_name.substring(file_name.length() - 4, file_name.length());
+            if (!fileNameExpans.equals("xlsx")){
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid file format");
+            }} catch (Exception e){
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Invalid file format");
+        }
         var fileData = fileDataService.saveAttachmentStorage(file);
         try {
             converterService.setSamplePath(fileData.getFilePath());
