@@ -351,6 +351,7 @@ function createCompile_bth() {
                 if (output.includes('connect')) {
                     document.getElementById("tbody2").replaceChildren();
                     employeeSelect2('add_table_2');
+                    document.getElementById('conv').disabled = false;
                 }
                 else {
                     document.getElementById("tbody1").replaceChildren();
@@ -708,6 +709,8 @@ function connectOnClick(id) {
     parent.appendChild(compile_bth);
 
     helperT(id);
+
+
 }
 
 function convertOnClick() {
